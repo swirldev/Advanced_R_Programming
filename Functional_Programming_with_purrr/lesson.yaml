@@ -1,0 +1,281 @@
+- Class: meta
+  Course: Advanced R Programming
+  Lesson: Functional Programming with purrr
+  Author: The Johns Hopkins Data Science Lab
+  Type: Standard
+  Organization: The Johns Hopkins Bloomberg School of Public Health
+  Version: 2.4.2
+
+- Class: text
+  Output: Functional programming is a programming philosophy based on lambda 
+    calculus. Lambda calculus was created by Alonzo Church, the PhD adviser to 
+    Alan Turing who is known for his role in cracking the encryption of the 
+    Nazi’s Enigma machine during World War Two. Functional programming has 
+    been a popular approach ever since it helped bring down the Third Reich.
+
+- Class: text
+  Output: Functional programming concentrates on four constructs - Data
+    (numbers, strings, etc), Variables (function arguments), Functions, and
+    Function Applications (evaluating functions given arguments and/or data).
+
+- Class: text
+  Output: There are groups of functions that are essential for functional 
+    programming. In most cases they take a function and a data structure as 
+    arguments, and that function is applied to that data structure in some way.
+    The purrr library contains many of these functions and we’ll be using it 
+    throughout this lesson. Functional programming is concerned mostly with 
+    lists and vectors. I may refer to just lists or vectors, but you should 
+    know that what applies for lists generally applies for vectors and 
+    vice-versa.
+    
+- Class: figure
+  Output: I have defined a few functions that we are going to use throughout
+    this lesson. Take a moment to familarize yourself with the documentation for
+    these functions.
+  Figure: funcs.R
+  FigureType: new
+
+- Class: text
+  Output: The first family of functions we'll be discussing are the Map
+    functions.
+
+- Class: text
+  Output: The map family of functions applies a function to the elements of a 
+    data structure, usually a list or a vector. The function is evaluated once 
+    for each element of the vector with the vector element as the first 
+    argument to the function. The return value is the same kind if data 
+    structure (a list or vector) but with every element replaced by the result 
+    of the function being evaluated with the corresponding element as the 
+    argument to the function.
+
+- Class: text
+  Output: In the purrr package the map() function returns a list, while the 
+    map_lgl(), map_chr(), and map_dbl() functions return vectors of logical 
+    values, strings, or numbers respectively.
+
+- Class: cmd_question
+  Output: Enter map_chr(c(5, 3, 4), int_to_string) into the R console to map the
+    int_to_string() function to the vector c(5, 3, 4).
+  CorrectAnswer: map_chr(c(5, 3, 4), int_to_string)
+  AnswerTests: omnitest(correctExpr='map_chr(c(5, 3, 4), int_to_string)')
+  Hint: Just enter map_chr(c(5, 3, 4), int_to_string)
+
+- Class: text
+  Output: Think about evaluating the int_to_string() function with just one of 
+    the arguments in the specified numeric vector, and then combining all of 
+    those function results into one vector. That's essentially how the map
+    functions work!
+
+- Class: cmd_question
+  Output: Let's try using a function that has two arguments with a map function.
+    Use map_lgl() to map the function gt() to vector c(1, 2, 3, 4, 5) to see
+    which elements of that vector are greater than 3. Make sure to specify
+    the last argument of map_lgl() as b = 3.
+  CorrectAnswer: map_lgl(c(1, 2, 3, 4, 5), gt, b = 3)
+  AnswerTests: omnitest(correctExpr='map_lgl(c(1, 2, 3, 4, 5), gt, b = 3)')
+  Hint: Just enter map_lgl(c(1, 2, 3, 4, 5), gt, b = 3)
+
+- Class: text
+  Output: The map_if() function takes as its arguments a list or vector 
+    containing data, a predicate function, and then a function to be applied.
+
+- Class: text
+  Output: "A predicate function is a function that returns TRUE or FALSE for 
+    each element in the provided list or vector. In the case of map_if(): if 
+    the predicate functions evaluates to TRUE, then the function is applied to 
+    the corresponding vector element, however if the predicate function 
+    evaluates to FALSE then the function is not applied."
+
+- Class: cmd_question
+  Output: Use map_if() to map square() to the even elements of the vector
+    c(1, 2, 3, 4). Use the is_even() function as a predicate.
+  CorrectAnswer: map_if(c(1, 2, 3, 4), is_even, square)
+  AnswerTests: omnitest(correctExpr='map_if(c(1, 2, 3, 4), is_even, square)')
+  Hint: Just enter map_if(c(1, 2, 3, 4), is_even, square)
+
+- Class: text
+  Output: Take a look at the output - all of the even numbers were squared while
+    the odd numbers were left alone! Notice that the map_if() function always
+    returns a list.
+
+- Class: text
+  Output: The map_at() function only applies the provided function to elements 
+    of a vector specified by their indexes. Like map_if(), map_at() always 
+    returns a list.
+
+- Class: cmd_question
+  Output: Use the map_at() function to map square() to the first, third, and
+    fourth element of the vector c(4, 6, 2, 3, 8).
+  CorrectAnswer: map_at(c(4, 6, 2, 3, 8), c(1, 3, 4), square)
+  AnswerTests: calculates_same_value("list(16, 6, 4, 9, 8)");expr_uses_func("map_at")
+  Hint: Just enter map_at(c(4, 6, 2, 3, 8), c(1, 3, 4), square)
+
+- Class: text
+  Output: In each of the previous examples we have only been mapping a 
+    function over one data structure, however you can map a function over two 
+    data structures with the map2() family of functions. The first two arguments
+    should be two vectors of the same length, followed by a function which will
+    be evaluated with an element of the first vector as the first argument and 
+    an element of the second vector as the second argument.
+
+- Class: cmd_question
+  Output: Use map2_chr() to apply the paste() function to the sequence of
+    integers from 1 to 26 and all the letters of the alphabet in lowercase.
+  CorrectAnswer: map2_chr(letters, 1:26, paste)
+  AnswerTests: calculates_same_value('c("a 1", "b 2", "c 3", "d 4", "e 5", "f 6", "g 7", "h 8", "i 9", "j 10", "k 11", "l 12", "m 13", "n 14", "o 15", "p 16", "q 17", "r 18", "s 19", "t 20", "u 21", "v 22", "w 23", "x 24", "y 25", "z 26")');expr_uses_func("map2_chr")
+  Hint: Just type map2_chr(letters, 1:26, paste)
+  
+- Class: text
+  Output: Now we'll discuss the Reduce family of functions.
+
+- Class: text
+  Output: List or vector reduction iteratively combines the first element of 
+    a vector with the second element of a vector, then that combined result 
+    is combined with the third element of the vector, and so on until the end 
+    of the vector is reached. The function to be applied should take at least 
+    two arguments. Where mapping returns a vector or a list, reducing should 
+    return a single value. 
+
+- Class: cmd_question
+  Output: Reduce the vector c(1, 3, 5, 7) with the function add_talk() using the
+    reduce() function.
+  CorrectAnswer: reduce(c(1, 3, 5, 7), add_talk)
+  AnswerTests: omnitest(correctExpr='reduce(c(1, 3, 5, 7), add_talk)')
+  Hint: Just enter reduce(c(1, 3, 5, 7), add_talk)
+
+- Class: text
+  Output: On the first iteration x has the value 1 and y has the value 3, then 
+    the two values are combined (they’re added together). On the second 
+    iteration x has the value of the result from the first iteration (4) 
+    and y has the value of the third element in the provided numeric 
+    vector (5). This process is repeated for each iteration.
+
+- Class: cmd_question
+  Output: Reduce the vector c("a", "b", "c", "d") into one string using the
+    paste_talk() function and the reduce() function.
+  CorrectAnswer: reduce(c("a", "b", "c", "d"), paste_talk)
+  AnswerTests: omnitest(correctExpr='reduce(c("a", "b", "c", "d"), paste_talk)')
+  Hint: Just enter reduce(c("a", "b", "c", "d"), paste_talk)
+
+- Class: text
+  Output: By default reduce() starts with the first element of a vector and 
+    then the second element and so on. In contrast the reduce_right() function 
+    starts with the last element of a vector and then proceeds to the second 
+    to last element of a vector and so on.
+
+- Class: cmd_question
+  Output: Reduce the vector c("a", "b", "c", "d") into one string using the
+    paste_talk() function and the reduce_right() function.
+  CorrectAnswer: reduce_right(c("a", "b", "c", "d"), paste_talk)
+  AnswerTests: omnitest(correctExpr='reduce_right(c("a", "b", "c", "d"), paste_talk)')
+  Hint: Just enter reduce_right(c("a", "b", "c", "d"), paste_talk)
+
+- Class: text
+  Output: Next we'll discuss fuctions for searching a list or a vector.
+  
+- Class: text
+  Output: You can search for specific elements of a vector using the contains()
+    and detect() functions. contains() will return TRUE if a specified element 
+    is present in a vector, otherwise it returns FALSE.
+
+- Class: cmd_question
+  Output: Use the contains() function to see if the vector random_ints
+    contains the number 45.
+  CorrectAnswer: contains(random_ints, 45)
+  AnswerTests: omnitest(correctExpr='contains(random_ints, 45)')
+  Hint: Just enter contains(random_ints, 45)
+
+- Class: cmd_question
+  Output: The detect() function takes a vector and a predicate function as 
+    arguments and it returns the first element of the vector for which the 
+    predicate function returns TRUE. Use detect() and is_even() to find the
+    first element of random_ints that is an even number.
+  CorrectAnswer: detect(random_ints, is_even)
+  AnswerTests: omnitest(correctExpr='detect(random_ints, is_even)')
+  Hint: Just enter detect(random_ints, is_even)
+
+- Class: cmd_question
+  Output: The detect_index() function takes the same arguments as detect(),
+    however it returns the index of the provided vector which contains the 
+    first element that satisfies the predicate function. Use detect_index() and
+    is_even() to find the index of the first element of random_ints that is an 
+    even number.
+  CorrectAnswer: detect_index(random_ints, is_even)
+  AnswerTests: omnitest(correctExpr='detect(random_ints, is_even)')
+  Hint: Just enter detect_index(random_ints, is_even)
+
+- Class: text
+  Output: The group of functions that includes keep(), discard(), every(), and 
+    some() are known as filter functions. Each of these functions takes a
+    vector and a predicate function as arguments.
+
+- Class: cmd_question
+  Output: For keep() only the elements of the vector that satisfy the predicate
+    function are returned while all other elements are removed. Use the keep()
+    function with random_ints and is_even() to extract the even elements of
+    random_ints.
+  CorrectAnswer: keep(random_ints, is_even)
+  AnswerTests: omnitest(correctExpr='keep(random_ints, is_even)')
+  Hint: Just enter keep(random_ints, is_even)
+
+- Class: cmd_question
+  Output: The discard() function works similarly, it only returns elements 
+    that don’t satisfy the predicate function. Use discard() to filter out the
+    even elements of random_ints.
+  CorrectAnswer: discard(random_ints, is_even)
+  AnswerTests: omnitest(correctExpr='discard(random_ints, is_even)')
+  Hint: Just type discard(random_ints, is_even)
+
+- Class: cmd_question
+  Output: The every() function returns TRUE only if every element in the 
+    vector satisfies the predicate function, while the some() function returns 
+    TRUE if at least one element in the vector satisfies the predicate function.
+    Use every() to see if every value of random_ints is less than 100.
+  CorrectAnswer: every(random_ints, function(x){x < 100})
+  AnswerTests: calculates_same_value("FALSE");expr_uses_func("every")
+  Hint: Just type every(random_ints, function(x){x < 100})
+
+- Class: text
+  Output: Finally let's talk about two functions - partial() and walk().
+
+- Class: cmd_question
+  Output: Partial application of functions can allow functions to behave a 
+    little like data structures. Using the partial() function from the purrr 
+    package you can specify some of the arguments of a function, and then 
+    partial() will return a function that only takes the unspecified arguments.
+    Use partial() to create a new function caled gt_10 which returns TRUE if
+    its only argument is greater than ten and FALSE otherwise.
+  CorrectAnswer: gt_10 <- partial(gt, b = 10)
+  AnswerTests: any_of_exprs('gt_10 <- partial(gt, b = 10)', 'gt_10 = partial(gt, b = 10)')
+  Hint: Just enter gt_10 <- partial(gt, b = 10)
+
+- Class: cmd_question
+  Output: Now test the new function out by entering gt_10(11) into the console.
+  CorrectAnswer: gt_10(11)
+  AnswerTests: omnitest(correctExpr='gt_10(11)')
+  Hint: Just enter gt_10(11)
+
+- Class: text
+  Output: Side effects of functions occur whenever a function interacts with 
+    the "outside world" - reading or writing data, printing to the console, 
+    and displaying a graph are all side effects. The results of side effects 
+    are one of the main motivations for writing code in the first place! Side 
+    effects can be tricky to handle though, since the order in which functions 
+    with side effects are executed often matters and there are variables that 
+    are external to the program (the relative location of some data).
+
+- Class: cmd_question
+  Output: If you want to evaluate a function across a data structure you should
+    use the walk() function from purrr. Use walk() across the vector called
+    mark_antony with the message function.
+  CorrectAnswer: walk(mark_antony, message)
+  AnswerTests: omnitest(correctExpr='walk(mark_antony, message)')
+  Hint: Just enter walk(mark_antony, message)
+  
+- Class: mult_question
+  Output: "Would you like to receive credit for completing this course on
+    Coursera.org?"
+  CorrectAnswer: NULL
+  AnswerChoices: Yes;No;Generate Code
+  AnswerTests: coursera_on_demand()
+  Hint: ""

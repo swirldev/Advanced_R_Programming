@@ -1,0 +1,87 @@
+---
+output: html_document
+---
+
+We'll use the following functions throughout this lesson:
+
+```{r, echo=FALSE}
+int_to_string <- function(x){
+  c("one", "two", "three", "four", "five",
+    "six", "seven", "eight", "nine", "ten")[x]
+}
+
+gt <- function(a, b){
+  a > b
+}
+
+is_even <- function(x){
+  x %% 2 == 0
+}
+
+square <- function(x){
+  x^2
+}
+
+add_talk <- function(x, y){
+  message("x is ", x)
+  message("y is ", y, "\n")
+  x + y
+}
+
+paste_talk <- function(x, y){
+  message("x is ", x)
+  message("y is ", y, "\n")
+  paste0(x, y)
+}
+```
+
+## `int_to_stirng(x)`
+
+Covert a number into its string equivaluent.
+
+```{r}
+int_to_string(4)
+```
+
+## `gt(a, b)`
+
+Returns `TRUE` if `a` is greater than `b`, otherwise returns `FALSE`.
+
+```{r}
+gt(3, 1)
+gt(2, 5)
+```
+
+## `is_even(x)`
+
+Returns `TRUE` is `x` is even, otherwise returns `FALSE`.
+
+```{r}
+is_even(34)
+is_even(55)
+```
+
+## `square(x)`
+
+Computes the square of `x`.
+
+```{r}
+square(4)
+```
+
+## `add_talk(x, y)`
+
+Adds `x` and `y` and produces a message about which numbers are being added.
+
+```{r}
+add_talk(5, 3)
+```
+
+## `paste_talk(x, y)`
+
+Concatenates the strings `x` and `y` and produces a message about which stirngs
+are being concatenated.
+
+```{r}
+paste_talk("red", "head")
+```

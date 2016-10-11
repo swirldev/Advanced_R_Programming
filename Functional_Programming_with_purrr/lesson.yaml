@@ -201,7 +201,7 @@
     is_even() to find the index of the first element of random_ints that is an 
     even number.
   CorrectAnswer: detect_index(random_ints, is_even)
-  AnswerTests: omnitest(correctExpr='detect(random_ints, is_even)')
+  AnswerTests: omnitest(correctExpr='detect_index(random_ints, is_even)')
   Hint: Just enter detect_index(random_ints, is_even)
 
 - Class: text

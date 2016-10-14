@@ -153,10 +153,13 @@ coursera_on_demand <- function(){
                        "assignmentKey": "PL3Db49VEea2YhJ0DzyiSg",
                        "submitterEmail": "%s",  
                        "secret": "%s",  
-                       "parts": {  
-                       "NGfmh": {  
-                       "output": "correct"  
-                       }
+                       "parts": {
+                        "Vv9SG": {  
+                          "output": "correct"  
+                          },
+                        "NGfmh": {  
+                          "output": "correct"  
+                        }
                        }  
   }', email, token)
     url <- 'https://www.coursera.org/api/onDemandProgrammingScriptSubmissions.v1'

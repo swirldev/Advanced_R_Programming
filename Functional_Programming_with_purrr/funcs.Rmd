@@ -35,7 +35,7 @@ paste_talk <- function(x, y){
 }
 ```
 
-## `int_to_stirng(x)`
+## `int_to_string(x)`
 
 Covert a number into its string equivaluent.
 
